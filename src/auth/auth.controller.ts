@@ -10,7 +10,7 @@ import { Role } from './enums/rol.enum';
 
 interface RequestWithUser extends Request {
     usuario: {
-        username: string;
+        email: string;
         role: string;
     }
 }

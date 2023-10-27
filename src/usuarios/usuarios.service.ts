@@ -6,6 +6,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto'
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { Perfil } from './perfil.entity';
+import * as bcryptjs from 'bcryptjs'
 
 
 @Injectable()
@@ -17,17 +18,21 @@ export class UsuariosService {
 
     }
 
-    findOneByUsername(username: string) {
-        return this.usuarioRepository.findOneBy({ username })
+    findOneByEmail(email: string) {
+        return this.usuarioRepository.findOne({
+            where: {
+                email: email
+            }
+        })
     }
 
 
     // POST/usuarios
-    async createUsuario(usuario: CreateUsuarioDto) {
+    async createUsuario({ email, password }: CreateUsuarioDto) {
 
         const usuarioFound = await this.usuarioRepository.findOne({
             where: {
-                username: usuario.username
+                email: email
             }
         })
 
@@ -35,7 +40,12 @@ export class UsuariosService {
             return new HttpException('Usuario ya existe !', HttpStatus.CONFLICT)
         }
 
-        const newUser = this.usuarioRepository.create(usuario);
+        // const newUser = this.usuarioRepository.create(usuario);
+        // return this.usuarioRepository.save(newUser);
+        const newUser = this.usuarioRepository.create({
+            email,
+            password: await bcryptjs.hash(password, 10),
+        });
         return this.usuarioRepository.save(newUser);
     }
 
@@ -78,7 +88,23 @@ export class UsuariosService {
 
 
     // PATCH/usuarios/1
-    async updateUsuario(id: number, usuario: UpdateUsuarioDto) {
+    // async updateUsuario(id: number, { email, password }: UpdateUsuarioDto) {
+    //     const usuarioFound = await this.usuarioRepository.findOne({
+    //         where: { id: id }
+    //     });
+
+    //     if (!usuarioFound) {
+    //         return new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    //     }
+    //     // const updateUsuario = Object.assign(usuarioFound, usuario);
+    //     // return this.usuarioRepository.save(updateUsuario);
+    //     const updateUsuario = Object.assign(usuarioFound, {
+    //         email,
+    //         password: await bcryptjs.hash(password, 10),
+    //     });
+    //     return this.usuarioRepository.save(updateUsuario);
+    // }
+    async updateUsuario(id: number, { email, password,role }: UpdateUsuarioDto) {
         const usuarioFound = await this.usuarioRepository.findOne({
             where: { id: id }
         });
@@ -86,7 +112,13 @@ export class UsuariosService {
         if (!usuarioFound) {
             return new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
         }
-        const updateUsuario = Object.assign(usuarioFound, usuario);
+        // const updateUsuario = Object.assign(usuarioFound, usuario);
+        // return this.usuarioRepository.save(updateUsuario);
+        const updateUsuario = Object.assign(usuarioFound, {
+            email,
+            password: await bcryptjs.hash(password, 10),
+            role,
+        });
         return this.usuarioRepository.save(updateUsuario);
     }
 
