@@ -1,16 +1,29 @@
-import { Controller, Post, Body, Get, Param, ParseIntPipe, Delete, Patch, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, ParseIntPipe, Delete, Patch, Put, UseGuards } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UsuariosService } from './usuarios.service';
 import { Usuario } from './usuarios.entity';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Role } from 'src/common/enums/rol.enum';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+
+
+
+
+// Auth(Role.USUARIO) se declara a que acceso tiene cada uno de los roles
+@Auth(Role.ADMIN)
 @Controller('usuarios')
 export class UsuariosController {
 
     constructor(private usuarioService: UsuariosService) { }
     // GET /usuarios
+    
     @Get()
+    // @UseGuards(RolesGuard)
+    // @Roles('admin')
     getUsuarios(): Promise<Usuario[]> {
         return this.usuarioService.getUsuarios();
     }
@@ -44,6 +57,9 @@ export class UsuariosController {
     createPerfil(
         @Param('id', ParseIntPipe) id: number,
         @Body() perfil: CreatePerfilDto) {
+
+        console.log(id, perfil)
         return this.usuarioService.createPerfil(id, perfil)
+
     }
 }

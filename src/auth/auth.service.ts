@@ -45,13 +45,13 @@ export class AuthService {
             email
         }
     }
-    async login({ email, password}: LoginDto) {
-        const usuarioFound = await this.usuarioService.findOneByEmail(email)
+    async login({ email, password,role}: LoginDto) {
+        const usuarioFound = await this.usuarioService.findByEmailWithPassword(email)
 
         if (!usuarioFound) {
-            return new HttpException('Username no es correcto !', HttpStatus.UNAUTHORIZED)
+            return new HttpException('Email incorrecto !', HttpStatus.UNAUTHORIZED)
         }
-        
+
         const isPasswordValid = await bcryptjs.compare(password, usuarioFound.password);
 
         if (!isPasswordValid) {
@@ -59,45 +59,33 @@ export class AuthService {
         }
 
         const payload = { email: usuarioFound.email, role: usuarioFound.role };
-        
+
+        if (usuarioFound.role === "admin") {
+            role = 'admin'
+        } else if (usuarioFound.role === "usuario") {
+            role = 'usuario'
+        }
+        else if (usuarioFound.role === "superadmin") {
+            role = 'superadmin'
+        }
         const token = await await this.jwtService.signAsync(payload);
 
         return {
             token,
-            email
+            email,
+            role
         }
     }
 
-    // async login({ email, password }: LoginDto) {
-    //     const usuarioFound = await this.usuarioService.findOneByEmail(email)
+    // async perfil({ email, role }: { email: string, role: string }) {
 
-    //     if (!usuarioFound) {
-    //         return new HttpException('Username no es correcto !', HttpStatus.UNAUTHORIZED)
-    //     }
-
-    //     const isPasswordValid = await bcryptjs.compare(password, usuarioFound.password);
-
-    //     if (!isPasswordValid) {
-    //         return new HttpException('Password es incorrecta !', HttpStatus.UNAUTHORIZED)
-    //     }
-
-    //     const payload = { email: usuarioFound.email, role: usuarioFound.role };
-    //     const token = await await this.jwtService.signAsync(payload);
-
-    //     return {
-    //         token,
-    //         email
-    //     }
-    // }
-
-    async perfil({ email, role }: { email: string, role: string }) {
-        // if (role === 'admin') {
-        //     throw new UnauthorizedException(
-        //         'No estas autorizado para acceder a este recurso.'
-        //     );
-        // }
+    
 
 
-        return await this.usuarioService.findOneByEmail(email)
+    async perfil({ email, role }: { email: string; role: string }) {
+        return await this.usuarioService.findOneByEmail(email);
     }
+    // async perfil({ email, role }: { email: string, role: string }) {
+    //     return await this.usuarioService.findOneByEmail(email)
+    // }
 }

@@ -1,5 +1,8 @@
+import { Transform } from "class-transformer";
+import { IsEmail, IsNumber, IsString, MinLength } from "class-validator"
 export class CreatePerfilDto{
-    nombres: string
-    apellidos: string
-    edad?: number
+    @IsString()
+    nombres: string;
+    @IsString()
+    apellidos: string;
 }

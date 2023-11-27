@@ -10,7 +10,4 @@ export class Perfil {
 
     @Column()
     apellidos: string;
-
-    @Column({ nullable: true })
-    edad: number;
 }

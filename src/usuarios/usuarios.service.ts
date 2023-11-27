@@ -18,12 +18,29 @@ export class UsuariosService {
 
     }
 
+    // findOneByEmail(email: string) {
+    //     return this.usuarioRepository.findOne({
+    //         where: {
+    //             email: email
+    //         }
+    //     })
+    // }
+
     findOneByEmail(email: string) {
-        return this.usuarioRepository.findOne({
-            where: {
-                email: email
-            }
-        })
+        return this.usuarioRepository.findOneBy({ email });
+    }
+
+    findByEmailWithPassword(email: string) {
+        return this.usuarioRepository.findOne(
+            {
+                where: { email },
+                select: ['id', 'email', 'password', 'role'],
+            });
+    }
+
+
+    finAll() {
+        return this.usuarioRepository.find()
     }
 
 
@@ -104,7 +121,7 @@ export class UsuariosService {
     //     });
     //     return this.usuarioRepository.save(updateUsuario);
     // }
-    async updateUsuario(id: number, { email, password,role }: UpdateUsuarioDto) {
+    async updateUsuario(id: number, { email, password, role }: UpdateUsuarioDto) {
         const usuarioFound = await this.usuarioRepository.findOne({
             where: { id: id }
         });
@@ -123,19 +140,26 @@ export class UsuariosService {
     }
 
     async createPerfil(id: number, perfil: CreatePerfilDto) {
+
         const usuarioFound = await this.usuarioRepository.findOne({
             where: {
                 id,
-            }
+            },
         });
 
         if (!usuarioFound) {
+            console.log('usuario no encontrado')
             return new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
         }
 
-        const newPerfil = this.perfilRepository.create(perfil);
-        const savePerfil = await this.perfilRepository.save(newPerfil);
+        console.log(usuarioFound)
 
+
+
+        const newPerfil = this.perfilRepository.create(perfil);
+        console.log(newPerfil)
+        const savePerfil = await this.perfilRepository.save(newPerfil);
+        console.log(savePerfil)
         usuarioFound.perfil = savePerfil
 
         return this.usuarioRepository.save(usuarioFound)

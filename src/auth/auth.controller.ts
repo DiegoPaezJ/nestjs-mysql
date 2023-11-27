@@ -4,9 +4,14 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
 import { Request } from 'express'
-import { Roles } from './decorators/roles.decorator';
+
 import { RolesGuard } from './guard/roles.guard';
-import { Role } from './enums/rol.enum';
+import { Role } from '../common/enums/rol.enum';
+// import { Roles } from './decorators/roles.decorator';
+import { ActiveUser } from 'src/common/decorators/active-user.decorator';
+import { Auth } from './decorators/auth.decorator';
+import { UserActiveInterface } from 'src/common/interface/user-active.interface';
+
 
 interface RequestWithUser extends Request {
     usuario: {
@@ -36,13 +41,28 @@ export class AuthController {
     }
 
     @Get('perfil')
-    @Roles(Role.ADMIN)
-    @UseGuards(AuthGuard, RolesGuard)
+    @Auth(Role.USUARIO)
+    // @UseGuards(AuthGuard, RolesGuard)
     perfil(
         @Req() req: RequestWithUser
     ) {
         return this.authService.perfil(req.usuario)
     }
+    // @Get('perfil')
+    // @Auth(Role.USUARIO)
+    // profile(@ActiveUser() user: UserActiveInterface) {
+    //     console.log(user)
+    //     return this.authService.perfil(user);
+    // }
+
+    // @Get('perfil')
+    // @Roles(Role.SUPERADMIN)
+    // @UseGuards(AuthGuard, RolesGuard)
+    // perfil(
+    //     @Req() req: RequestWithUser
+    // ) {
+    //     return this.authService.perfil(req.usuario)
+    // }
 
     // @Get('perfil')
     // @Roles(Role.USUARIO)

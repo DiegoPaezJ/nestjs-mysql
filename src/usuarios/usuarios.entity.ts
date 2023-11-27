@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Perfil } from './perfil.entity';
-import { Post } from 'src/posts/posts.entity';
+import { Post } from '.././posts/posts.entity';
+import { Role } from '.././common/enums/rol.enum';
 
 @Entity()
 export class Usuario {
@@ -11,10 +12,10 @@ export class Usuario {
     @Column({ unique: true,nullable: false  })
     email: string;
 
-    @Column()
+    @Column({nullable: false, select:false  })
     password: string;
 
-    @Column({default:'usuario'})
+    @Column({type:'enum',default:Role.USUARIO, enum:Role})
     role: string;
 
     @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
@@ -29,6 +30,4 @@ export class Usuario {
 
     @OneToMany(() => Post, post => post.autor)
     posts: Post[];
-
-
 }

@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/jwt.constanst';
+import { UserExistConstraint } from 'src/constraints/user-exist.conatraint';
 
 @Module({
   imports: [UsuariosModule,
@@ -16,5 +17,6 @@ import { jwtConstants } from './constants/jwt.constanst';
   ],
   controllers: [AuthController],
   providers: [AuthService]
+  // providers: [AuthService, UserExistConstraint]
 })
 export class AuthModule { }
