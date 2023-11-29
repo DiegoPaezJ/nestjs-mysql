@@ -18,7 +18,8 @@ export class Usuario {
     @Column({type:'enum',default:Role.USUARIO, enum:Role})
     role: string;
 
-    @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    // @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    @Column({default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 
     @Column({ nullable: true })

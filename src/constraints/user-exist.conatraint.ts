@@ -11,6 +11,7 @@ export class UserExistConstraint implements ValidatorConstraintInterface {
     ) { }
 
     async validate(email: string, args: ValidationArguments) {
+        // const user = await this.userService.findOneByEmail(email);
         const user = await this.userService.findOneByEmail(email);
         return !user;
     }
