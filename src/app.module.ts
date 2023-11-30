@@ -67,6 +67,7 @@ import { config } from 'process';
     UsuariosModule,
     PostsModule,
     AuthModule,
+    
     // Directorio donde se guardarán los archivos
     MulterModule.register({
       dest: './uploads',
@@ -74,10 +75,12 @@ import { config } from 'process';
   ],
   // controllers: [
   //   PostsController, AppController],
-  controllers: [AppController],
+  // controllers: [AppController],
+  controllers:[],
   // providers: [
   //   PostsService, AppService],
-  providers: [
-    AppService],
+  // providers: [
+  //   AppService],
+  providers: [],
 })
 export class AppModule { }
