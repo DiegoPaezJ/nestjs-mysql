@@ -46,7 +46,7 @@ import { config } from 'process';
 
     // }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'mysql',
       host: process.env.MYSQL_HOST,
       port: parseInt(process.env.MYSQL_PORT),
       username: process.env.MYSQL_USERNAME,
