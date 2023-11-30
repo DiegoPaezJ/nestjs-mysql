@@ -15,7 +15,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 
 // Auth(Role.USUARIO) se declara a que acceso tiene cada uno de los roles
 // @Auth(Role.ADMIN)
-@Auth(Role.USUARIO)
+// @Auth(Role.USUARIO)
 @Controller('usuarios')
 export class UsuariosController {
 
