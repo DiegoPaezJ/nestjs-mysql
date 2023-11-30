@@ -15,10 +15,10 @@ export class Post {
     @Column()
     contenido: string;
 
+    @Column({ default:1 })
+    autorId?: number;
     // @Column()
-    // autorId?: number;
-    @Column()
-    autorId?: string;
+    // autorId?: string;
     // @Column()
     // filename?: string;
 

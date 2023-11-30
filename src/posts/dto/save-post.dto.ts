@@ -10,10 +10,11 @@ export class SavePostDto {
     @MinLength(1)
     contenido: string;
 
-    // @IsNumber()
-    // autorId?: number;
-    @IsString()
-    autorId?: string;
+    
+    autorId?: number;
+    // @IsString()
+    // @MinLength(1)
+    // autorId?: string;
 
     @IsString()
     file: string;
