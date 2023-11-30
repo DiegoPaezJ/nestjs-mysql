@@ -12,6 +12,8 @@ export class SavePostDto {
 
     @IsNumber()
     autorId?: number;
+    // @IsString()
+    // autorId?: string;
 
     @IsString()
     file: string;

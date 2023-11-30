@@ -13,6 +13,8 @@ export class CreatePostDto {
 
     @IsNumber()
     autorId?: number;
+    // @IsString()
+    // autorId?: string;
 
     @IsOptional()
     @ValidateNested({ each: true })
