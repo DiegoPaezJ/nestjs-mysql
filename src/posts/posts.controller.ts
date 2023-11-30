@@ -29,6 +29,8 @@ const storage = diskStorage({
 });
 
 // Auth(Role.USUARIO) se declara a que acceso tiene cada uno de los roles
+@Auth(Role.ADMIN)
+@Auth(Role.SUPERADMIN)
 @Auth(Role.USUARIO)
 @Controller('posts')
 export class PostsController {
