@@ -15,13 +15,14 @@ export class Post {
     @Column()
     contenido: string;
 
+    // @Column()
+    // autorId?: number;
     @Column()
-    autorId?: number;
-
+    autorId?: string;
     // @Column()
     // filename?: string;
 
-    @Column({nullable:true})
+    @Column({ nullable: true })
     file?: string;
 
     // @Column({nullable:true})

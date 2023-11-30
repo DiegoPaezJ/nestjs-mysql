@@ -11,10 +11,10 @@ export class CreatePostDto {
     @MinLength(1)
     contenido: string;
 
-    @IsNumber()
-    autorId?: number;
-    // @IsString()
-    // autorId?: string;
+    // @IsNumber()
+    // autorId?: number;
+    @IsString()
+    autorId?: string;
 
     @IsOptional()
     @ValidateNested({ each: true })

@@ -2,7 +2,7 @@ export interface Posts{
     id: number;
     titulo: string;
     contenido: string;
-    autorId?:number
+    autorId?:string
 
     // @Column()
     // autorId?: number;
