@@ -15,8 +15,8 @@ export class Post {
     @Column()
     contenido: string;
 
-    // @Column()
-    // autorId?: number;
+    @Column()
+    autorId?: number;
 
     // @Column()
     // filename?: string;

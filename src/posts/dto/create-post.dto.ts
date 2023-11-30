@@ -11,8 +11,8 @@ export class CreatePostDto {
     @MinLength(1)
     contenido: string;
 
-    // @IsNumber()
-    // autorId?: number;
+    @IsNumber()
+    autorId?: number;
 
     @IsOptional()
     @ValidateNested({ each: true })
